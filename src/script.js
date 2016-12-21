@@ -1,13 +1,11 @@
 (function() {
   'use strict';
-  class NpmStarter {
-    constructor(option) {
-      if(global.console) {
-        console.log('Thanks, world!');
-      }
+  class Complex64Array {
+    constructor(opts = {}) {
+      this.val = 'Thanks, world!';
     }
   }
 
   // export
-  global.NpmStarter = NpmStarter;
+  global.Complex64Array = Complex64Array;
 })();

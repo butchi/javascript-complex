@@ -7,18 +7,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 (function () {
   'use strict';
 
-  var NpmStarter = function NpmStarter(option) {
-    _classCallCheck(this, NpmStarter);
+  var Complex64Array = function Complex64Array() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (global.console) {
-      console.log('Thanks, world!');
-    }
+    _classCallCheck(this, Complex64Array);
+
+    this.val = 'Thanks, world!';
   };
 
   // export
 
 
-  global.NpmStarter = NpmStarter;
+  global.Complex64Array = Complex64Array;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
