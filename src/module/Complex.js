@@ -20,10 +20,10 @@ class Complex {
 
 Complex.re = function(c) {
   return c.re;
-}
+};
 
 Complex.im = function(c) {
   return c.im;
-}
+};
 
 export default Complex;
