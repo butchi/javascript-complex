@@ -1,72 +1,51 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// from [旧石器時代のJavaScriptを書いてる各位に告ぐ、現代的なJavaScript超入門 Section5 ～ES2015文法を覚えよう(前編)～ - Qiita](http://qiita.com/gaogao_9/items/18b20ad9b76c9c81b5fa#%E8%A3%9C%E8%B6%B3%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%A8prototype%E3%81%AE%E5%90%88%E3%82%8F%E3%81%9B%E6%8A%80%E3%82%92%E3%82%AD%E3%83%A1%E3%82%8B)
+var float32Array = new Float32Array(2);
 
-var BinaryReader = function () {
-    function BinaryReader(buff, opt) {
-        _classCallCheck(this, BinaryReader);
+var Complex = function () {
+  function Complex() {
+    _classCallCheck(this, Complex);
 
-        opt = opt || {};
+    this.re = (arguments.length <= 0 ? undefined : arguments[0]) || 0;
+    this.im = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
 
-        this.offset = opt.offset || 0;
-        this.isLittleEndian = !!opt.isLittleEndian;
-        this.dataView = new DataView(buff, this.offset, opt.length);
+    float32Array[0] = this.re;
+    float32Array[1] = this.im;
+  }
+
+  _createClass(Complex, [{
+    key: "abs",
+    value: function abs() {
+      return this.re * this.re + this.im * this.im;
     }
+  }, {
+    key: "arg",
+    value: function arg() {
+      return Math.atan2(this.im, this.re);
+    }
+  }]);
 
-    // (本来はprototypeの書き方とまとめるのですが)今回はprototypeとの比較用に
-    // 浮動小数点型の読み込みメソッドについては、あえてclassの記法に従って定義してみます。
-
-    _createClass(BinaryReader, [{
-        key: "readAsFloat32",
-        value: function readAsFloat32() {
-            // 指定された位置のdataViewの値を読み取って、読み取ったバイト数だけ読み取り位置を進める
-            var value = this.dataView.getFloat32(this.offset, this.isLittleEndian);
-            this.offset += 32 >>> 3;
-
-            return value;
-        }
-    }, {
-        key: "readAsFloat64",
-        value: function readAsFloat64() {
-            // 指定された位置のdataViewの値を読み取って、読み取ったバイト数だけ読み取り位置を進める
-            var value = this.dataView.getFloat64(this.offset, this.isLittleEndian);
-            this.offset += 64 >>> 3;
-
-            return value;
-        }
-    }]);
-
-    return BinaryReader;
+  return Complex;
 }();
 
-// 仮組みで作ったクラスに対して、規則性のあるメソッドについては
-// prototypeを利用して、まとめて定義処理をする
+Complex.re = function (c) {
+  return c.re;
+};
 
+Complex.im = function (c) {
+  return c.im;
+};
 
-[8, 16, 32].forEach(function (bit) {
-    ["Int", "Uint"].map(function (type) {
-        return type + bit;
-    }).forEach(function (method) {
-        // 動的に生み出したメソッド名を使ってdefinePropertyでまとめて定義する
-        Object.defineProperty(BinaryReader.prototype, "readAs" + method, {
-            value: function value() {
-                // 指定された位置のdataViewの値を読み取って、読み取ったバイト数だけ読み取り位置を進める
-                var value = this.dataView["get" + method](this.offset, this.isLittleEndian);
-                this.offset += bit >>> 3;
-
-                return value;
-            }
-        });
-    });
-});
-
-// モジュールとして出力する
-module.exports = BinaryReader;
+exports.default = Complex;
 
 },{}],2:[function(require,module,exports){
 'use strict';
@@ -76,12 +55,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _BinaryReader = require('./BinaryReader.js');
-
-var _BinaryReader2 = _interopRequireDefault(_BinaryReader);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -118,6 +91,7 @@ var Complex64Array = function () {
 
     buffer = new ArrayBuffer(length * 8);
     float32Array = new Float32Array(buffer);
+    float32Array.fill(0);
 
     source.forEach(function (item, i) {
       float32Array[i * 2] = item;
@@ -281,11 +255,12 @@ var Complex64Array = function () {
   }, {
     key: 'set',
     value: function set() {
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
+      var arr = (arguments.length <= 0 ? undefined : arguments[0]) || [];
+      var offset = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
 
-      console.log(args);
+      arr.forEach(function (item, i) {
+        float32Array[(i + offset) * 2] = item;
+      });
     }
 
     /*
@@ -401,9 +376,13 @@ Complex64Array.BYTES_PER_ELEMENT = 8;
 
 exports.default = Complex64Array;
 
-},{"./BinaryReader.js":1}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 (function (global){
 'use strict';
+
+var _Complex = require('./module/Complex');
+
+var _Complex2 = _interopRequireDefault(_Complex);
 
 var _Complex64Array = require('./module/Complex64Array');
 
@@ -416,8 +395,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
   // export
 
+  global.Complex = _Complex2.default;
   global.Complex64Array = _Complex64Array2.default;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./module/Complex64Array":2}]},{},[3]);
+},{"./module/Complex":1,"./module/Complex64Array":2}]},{},[3]);
