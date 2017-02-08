@@ -1,8 +1,3 @@
-let buffer;
-let length = 0;
-let source = [];
-let float32Array;
-
 /*
  *  インスタンスのプロトタイプを作る関数を返します。これは、デフォルトで対応する Uint32Array コンストラクタです。
  *  new Uint32Array(length);
@@ -12,28 +7,31 @@ let float32Array;
  */
 class Complex64Array {
   constructor(...args) {
+    this.len = 0;
+    this.source = [];
+
     if(args.length === 0) {
     } else if(args.length === 1) {
       let arg = args[0];
 
       if(typeof arg === 'number') {
-        length = arg;
+        this.len = arg;
       } else if(arg instanceof Array) {
-        length = arg.length;
+        this.len = arg.length;
 
-        source = arg;
+        this.source = arg;
       } else {
-        length = 0;
+        this.len = 0;
       }
     } else {
     }
 
-    buffer = new ArrayBuffer(length * 8);
-    float32Array =  new Float32Array(buffer);
-    float32Array.fill(0);
+    this.buf = new ArrayBuffer(length * 8);
+    this.float32Array =  new Float32Array(this.buf);
+    this.float32Array.fill(0);
 
-    source.forEach((item, i) => {
-      float32Array[i * 2] = item;
+    this.source.forEach((item, i) => {
+      this.float32Array[i * 2] = item;
     });
   }
 
@@ -41,7 +39,7 @@ class Complex64Array {
    *  [読取専用] Uint32Array オブジェクトによって参照されるArrayBufferを返します。構築時に設定され、読取専用となります。
    */
   get buffer() {
-    return buffer;
+    return this.buff;
   }
 
   /*
@@ -60,7 +58,7 @@ class Complex64Array {
    *  [読取専用] Uint32Array オブジェクト内に保持された要素の数を返します。構築時に設定され、読取専用となります。
    */
   get length() {
-    return length;
+    return this.len;
   }
 
 
@@ -180,7 +178,7 @@ class Complex64Array {
     let offset = args[1] || 0;
 
     arr.forEach((item, i) => {
-      float32Array[(i + offset) * 2] = item;
+      this.float32Array[(i + offset) * 2] = item;
     });
   }
 
@@ -224,12 +222,12 @@ class Complex64Array {
    *  配列と要素を表す文字列を返します。Array.prototype.toString()も確かめて下さい。
    */
   toString() {
-    return float32Array.toString();
+    return this.float32Array.toString();
   }
 
 
   valueOf() {
-    return float32Array;
+    return this.float32Array;
   }
 
   /*

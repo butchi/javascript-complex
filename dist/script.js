@@ -9,8 +9,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var float32Array = new Float32Array(2);
-
 var Complex = function () {
   function Complex() {
     _classCallCheck(this, Complex);
@@ -18,8 +16,9 @@ var Complex = function () {
     this.re = (arguments.length <= 0 ? undefined : arguments[0]) || 0;
     this.im = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
 
-    float32Array[0] = this.re;
-    float32Array[1] = this.im;
+    this.float32Array = new Float32Array(2);
+    this.float32Array[0] = this.re;
+    this.float32Array[1] = this.im;
   }
 
   _createClass(Complex, [{
@@ -58,11 +57,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var buffer = void 0;
-var length = 0;
-var source = [];
-var float32Array = void 0;
-
 /*
  *  インスタンスのプロトタイプを作る関数を返します。これは、デフォルトで対応する Uint32Array コンストラクタです。
  *  new Uint32Array(length);
@@ -70,31 +64,35 @@ var float32Array = void 0;
  *  new Uint32Array(object);
 ​ *  new Uint32Array(buffer [, byteOffset [, length]]);
  */
-
 var Complex64Array = function () {
   function Complex64Array() {
+    var _this = this;
+
     _classCallCheck(this, Complex64Array);
+
+    this.len = 0;
+    this.source = [];
 
     if (arguments.length === 0) {} else if (arguments.length === 1) {
       var arg = arguments.length <= 0 ? undefined : arguments[0];
 
       if (typeof arg === 'number') {
-        length = arg;
+        this.len = arg;
       } else if (arg instanceof Array) {
-        length = arg.length;
+        this.len = arg.length;
 
-        source = arg;
+        this.source = arg;
       } else {
-        length = 0;
+        this.len = 0;
       }
     } else {}
 
-    buffer = new ArrayBuffer(length * 8);
-    float32Array = new Float32Array(buffer);
-    float32Array.fill(0);
+    this.buf = new ArrayBuffer(length * 8);
+    this.float32Array = new Float32Array(this.buf);
+    this.float32Array.fill(0);
 
-    source.forEach(function (item, i) {
-      float32Array[i * 2] = item;
+    this.source.forEach(function (item, i) {
+      _this.float32Array[i * 2] = item;
     });
   }
 
@@ -255,11 +253,13 @@ var Complex64Array = function () {
   }, {
     key: 'set',
     value: function set() {
+      var _this2 = this;
+
       var arr = (arguments.length <= 0 ? undefined : arguments[0]) || [];
       var offset = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
 
       arr.forEach(function (item, i) {
-        float32Array[(i + offset) * 2] = item;
+        _this2.float32Array[(i + offset) * 2] = item;
       });
     }
 
@@ -318,12 +318,12 @@ var Complex64Array = function () {
   }, {
     key: 'toString',
     value: function toString() {
-      return float32Array.toString();
+      return this.float32Array.toString();
     }
   }, {
     key: 'valueOf',
     value: function valueOf() {
-      return float32Array;
+      return this.float32Array;
     }
 
     /*
@@ -334,7 +334,7 @@ var Complex64Array = function () {
   }, {
     key: 'buffer',
     get: function get() {
-      return buffer;
+      return this.buff;
     }
 
     /*
@@ -360,7 +360,7 @@ var Complex64Array = function () {
   }, {
     key: 'length',
     get: function get() {
-      return length;
+      return this.len;
     }
   }]);
 

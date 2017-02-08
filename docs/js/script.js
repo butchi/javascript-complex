@@ -6,5 +6,3 @@ complex64Array.set([5,3,8], 2);
 
 console.log(uint32Array.toString());
 console.log(complex64Array.toString());
-
-console.log(c.arg());

@@ -1,12 +1,11 @@
-let float32Array = new Float32Array(2);
-
 class Complex {
   constructor(...args) {
     this.re = args[0] || 0;
     this.im = args[1] || 0;
 
-    float32Array[0] = this.re;
-    float32Array[1] = this.im;
+    this.float32Array = new Float32Array(2);
+    this.float32Array[0] = this.re;
+    this.float32Array[1] = this.im;
   }
 
   abs() {
