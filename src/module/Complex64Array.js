@@ -7,7 +7,7 @@
  */
 class Complex64Array {
   constructor(...args) {
-    this.len = 0;
+    this._length = 0;
     this.source = [];
 
     if(args.length === 0) {
@@ -15,23 +15,23 @@ class Complex64Array {
       let arg = args[0];
 
       if(typeof arg === 'number') {
-        this.len = arg;
+        this._length = arg;
       } else if(arg instanceof Array) {
-        this.len = arg.length;
+        this._length = arg.length;
 
         this.source = arg;
       } else {
-        this.len = 0;
+        this._length = 0;
       }
     } else {
     }
 
-    this.buf = new ArrayBuffer(length * 8);
-    this.float32Array =  new Float32Array(this.buf);
-    this.float32Array.fill(0);
+    this._buffer = new ArrayBuffer(this._length * 8);
+    this._float32Array =  new Float32Array(this._buffer);
+    this._float32Array.fill(0);
 
     this.source.forEach((item, i) => {
-      this.float32Array[i * 2] = item;
+      this._float32Array[i * 2] = item;
     });
   }
 
@@ -39,7 +39,7 @@ class Complex64Array {
    *  [読取専用] Uint32Array オブジェクトによって参照されるArrayBufferを返します。構築時に設定され、読取専用となります。
    */
   get buffer() {
-    return this.buff;
+    return this._buffer;
   }
 
   /*
@@ -58,7 +58,7 @@ class Complex64Array {
    *  [読取専用] Uint32Array オブジェクト内に保持された要素の数を返します。構築時に設定され、読取専用となります。
    */
   get length() {
-    return this.len;
+    return this._length;
   }
 
 
@@ -178,7 +178,7 @@ class Complex64Array {
     let offset = args[1] || 0;
 
     arr.forEach((item, i) => {
-      this.float32Array[(i + offset) * 2] = item;
+      this._float32Array[(i + offset) * 2] = item;
     });
   }
 
@@ -222,12 +222,12 @@ class Complex64Array {
    *  配列と要素を表す文字列を返します。Array.prototype.toString()も確かめて下さい。
    */
   toString() {
-    return this.float32Array.toString();
+    return this._float32Array.toString();
   }
 
 
   valueOf() {
-    return this.float32Array;
+    return this._float32Array;
   }
 
   /*
