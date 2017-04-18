@@ -13,12 +13,12 @@ var Complex = function () {
   function Complex() {
     _classCallCheck(this, Complex);
 
-    this.re = (arguments.length <= 0 ? undefined : arguments[0]) || 0;
-    this.im = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
+    this[0] = (arguments.length <= 0 ? undefined : arguments[0]) || 0;
+    this[1] = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
 
-    this.float32Array = new Float32Array(2);
-    this.float32Array[0] = this.re;
-    this.float32Array[1] = this.im;
+    // this.float32Array = new Float32Array(2);
+    // this.float32Array[0] = this.re;
+    // this.float32Array[1] = this.im;
   }
 
   _createClass(Complex, [{
@@ -31,18 +31,20 @@ var Complex = function () {
     value: function arg() {
       return Math.atan2(this.im, this.re);
     }
+  }, {
+    key: "re",
+    get: function get() {
+      return this[0];
+    }
+  }, {
+    key: "im",
+    get: function get() {
+      return this[1];
+    }
   }]);
 
   return Complex;
 }();
-
-Complex.re = function (c) {
-  return c.re;
-};
-
-Complex.im = function (c) {
-  return c.im;
-};
 
 exports.default = Complex;
 
@@ -70,29 +72,29 @@ var Complex64Array = function () {
 
     _classCallCheck(this, Complex64Array);
 
-    this.len = 0;
+    this._length = 0;
     this.source = [];
 
     if (arguments.length === 0) {} else if (arguments.length === 1) {
       var arg = arguments.length <= 0 ? undefined : arguments[0];
 
       if (typeof arg === 'number') {
-        this.len = arg;
+        this._length = arg;
       } else if (arg instanceof Array) {
-        this.len = arg.length;
+        this._length = arg.length;
 
         this.source = arg;
       } else {
-        this.len = 0;
+        this._length = 0;
       }
     } else {}
 
-    this.buf = new ArrayBuffer(length * 8);
-    this.float32Array = new Float32Array(this.buf);
-    this.float32Array.fill(0);
+    this._buffer = new ArrayBuffer(this._length * 8);
+    this._float32Array = new Float32Array(this._buffer);
+    this._float32Array.fill(0);
 
     this.source.forEach(function (item, i) {
-      _this.float32Array[i * 2] = item;
+      _this._float32Array[i * 2] = item;
     });
   }
 
@@ -259,7 +261,7 @@ var Complex64Array = function () {
       var offset = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
 
       arr.forEach(function (item, i) {
-        _this2.float32Array[(i + offset) * 2] = item;
+        _this2._float32Array[(i + offset) * 2] = item;
       });
     }
 
@@ -318,12 +320,12 @@ var Complex64Array = function () {
   }, {
     key: 'toString',
     value: function toString() {
-      return this.float32Array.toString();
+      return this._float32Array.toString();
     }
   }, {
     key: 'valueOf',
     value: function valueOf() {
-      return this.float32Array;
+      return this._float32Array;
     }
 
     /*
@@ -334,7 +336,7 @@ var Complex64Array = function () {
   }, {
     key: 'buffer',
     get: function get() {
-      return this.buff;
+      return this._buffer;
     }
 
     /*
@@ -360,7 +362,7 @@ var Complex64Array = function () {
   }, {
     key: 'length',
     get: function get() {
-      return this.len;
+      return this._length;
     }
   }]);
 
