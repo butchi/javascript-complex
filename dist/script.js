@@ -261,7 +261,12 @@ var Complex64Array = function () {
       var offset = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
 
       arr.forEach(function (item, i) {
-        _this2._float32Array[(i + offset) * 2] = item;
+        if (item instanceof Complex) {
+          _this2._float32Array[(i + offset) * 2] = item.re;
+          _this2._float32Array[(i + offset) * 2 + 1] = item.im;
+        } else {
+          _this2._float32Array[(i + offset) * 2] = item;
+        }
       });
     }
 

@@ -178,7 +178,12 @@ class Complex64Array {
     let offset = args[1] || 0;
 
     arr.forEach((item, i) => {
-      this._float32Array[(i + offset) * 2] = item;
+      if(item instanceof Complex) {
+        this._float32Array[(i + offset) * 2] = item.re;
+        this._float32Array[(i + offset) * 2 + 1] = item.im;
+      } else {
+        this._float32Array[(i + offset) * 2] = item;
+      }
     });
   }
 
