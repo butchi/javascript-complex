@@ -13,12 +13,9 @@ var Complex = function () {
   function Complex() {
     _classCallCheck(this, Complex);
 
-    this[0] = (arguments.length <= 0 ? undefined : arguments[0]) || 0;
-    this[1] = (arguments.length <= 1 ? undefined : arguments[1]) || 0;
-
-    // this.float32Array = new Float32Array(2);
-    // this.float32Array[0] = this.re;
-    // this.float32Array[1] = this.im;
+    this._float32Array = new Float32Array(2);
+    this._float32Array[0] = arguments.length <= 0 ? undefined : arguments[0];
+    this._float32Array[1] = arguments.length <= 1 ? undefined : arguments[1];
   }
 
   _createClass(Complex, [{
@@ -34,12 +31,12 @@ var Complex = function () {
   }, {
     key: "re",
     get: function get() {
-      return this[0];
+      return this._float32Array[0];
     }
   }, {
     key: "im",
     get: function get() {
-      return this[1];
+      return this._float32Array[1];
     }
   }]);
 

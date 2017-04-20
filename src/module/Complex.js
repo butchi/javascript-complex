@@ -1,11 +1,8 @@
 export default class Complex {
   constructor(...args) {
-    this[0] = args[0] || 0;
-    this[1] = args[1] || 0;
-
-    // this.float32Array = new Float32Array(2);
-    // this.float32Array[0] = this.re;
-    // this.float32Array[1] = this.im;
+    this._float32Array = new Float32Array(2);
+    this._float32Array[0] = args[0];
+    this._float32Array[1] = args[1];
   }
 
   abs() {
@@ -17,10 +14,10 @@ export default class Complex {
   }
 
   get re() {
-    return this[0];
+    return this._float32Array[0];
   }
 
   get im() {
-    return this[1];
+    return this._float32Array[1];
   }
 }
