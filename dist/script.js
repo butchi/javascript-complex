@@ -55,6 +55,12 @@ var ComplexClass = function () {
       }
     }
   }, {
+    key: 'valueOf',
+    value: function valueOf() {
+      var float64Array = new Float64Array(this._float32Array.buffer);
+      return float64Array[0];
+    }
+  }, {
     key: 're',
     get: function get() {
       return this._float32Array[0];

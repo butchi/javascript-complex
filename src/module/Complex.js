@@ -45,6 +45,11 @@ class ComplexClass {
       return `${re}+${im}i`;
     }
   }
+
+  valueOf() {
+    let float64Array = new Float64Array(this._float32Array.buffer);
+    return float64Array[0];
+  }
 }
 
 function complex(re, im) {
