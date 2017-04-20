@@ -1,4 +1,5 @@
-const imMap = new Map();
+// メモ化でメモリを食うのが心配
+const map = new Map();
 
 class ComplexClass {
   constructor(...args) {
@@ -58,27 +59,30 @@ class ComplexClass {
   }
 }
 
-function complex(re, im) {
-  let c;
-  let reMap = imMap.get(im);
+function complex(...args) {
+  if(args[1] == null) {
+    const v = args[0];
+    const c = map.get(v);
 
-  if(reMap) {
-    c = reMap.get(re);
     if(c) {
       return c;
     } else {
-      c = new ComplexClass(re, im);
-      reMap.set(re, c);
-      return c;
+      const nc = new Complex(v);
+      map.set(v, nc);
+      return nc;
     }
   } else {
-    let c = new ComplexClass(re, im);
+    // Map取得のために必ずnewしなければならないのを避けたい
+    const nc = new Complex(args[0], args[1]);
+    const v = nc.valueOf();
+    const c = map.get(v);
 
-    let reMap = new Map();
-    reMap.set(re, c);
-    imMap.set(im, reMap);
-
-    return c;
+    if(c) {
+      return c;
+    } else {
+      map.set(v, nc);
+      return nc;
+    }
   }
 }
 

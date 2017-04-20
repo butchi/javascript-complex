@@ -9,7 +9,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var imMap = new Map();
+// メモ化でメモリを食うのが心配
+var map = new Map();
 
 var ComplexClass = function () {
   function ComplexClass() {
@@ -81,27 +82,30 @@ var ComplexClass = function () {
   return ComplexClass;
 }();
 
-function complex(re, im) {
-  var c = void 0;
-  var reMap = imMap.get(im);
+function complex() {
+  if ((arguments.length <= 1 ? undefined : arguments[1]) == null) {
+    var v = arguments.length <= 0 ? undefined : arguments[0];
+    var c = map.get(v);
 
-  if (reMap) {
-    c = reMap.get(re);
     if (c) {
       return c;
     } else {
-      c = new ComplexClass(re, im);
-      reMap.set(re, c);
-      return c;
+      var nc = new Complex(v);
+      map.set(v, nc);
+      return nc;
     }
   } else {
-    var _c = new ComplexClass(re, im);
+    // Map取得のために必ずnewしなければならないのを避けたい
+    var _nc = new Complex(arguments.length <= 0 ? undefined : arguments[0], arguments.length <= 1 ? undefined : arguments[1]);
+    var _v = _nc.valueOf();
+    var _c = map.get(_v);
 
-    var _reMap = new Map();
-    _reMap.set(re, _c);
-    imMap.set(im, _reMap);
-
-    return _c;
+    if (_c) {
+      return _c;
+    } else {
+      map.set(_v, _nc);
+      return _nc;
+    }
   }
 }
 
