@@ -89,7 +89,7 @@ var Complex64Array = function () {
       }
     } else {}
 
-    this._buffer = new ArrayBuffer(this._length * 8);
+    this._buffer = new ArrayBuffer(this._length * Complex64Array.BYTES_PER_ELEMENT);
     this._float32Array = new Float32Array(this._buffer);
     this._float32Array.fill(0);
 
