@@ -9,16 +9,18 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Complex = function () {
-  function Complex() {
-    _classCallCheck(this, Complex);
+var imMap = new Map();
+
+var ComplexClass = function () {
+  function ComplexClass() {
+    _classCallCheck(this, ComplexClass);
 
     this._float32Array = new Float32Array(2);
     this._float32Array[0] = arguments.length <= 0 ? undefined : arguments[0];
     this._float32Array[1] = arguments.length <= 1 ? undefined : arguments[1];
   }
 
-  _createClass(Complex, [{
+  _createClass(ComplexClass, [{
     key: 'abs',
     value: function abs() {
       return this.re * this.re + this.im * this.im;
@@ -64,10 +66,45 @@ var Complex = function () {
     }
   }]);
 
-  return Complex;
+  return ComplexClass;
 }();
 
-exports.default = Complex;
+function complex(re, im) {
+  var c = void 0;
+  var reMap = imMap.get(im);
+
+  if (reMap) {
+    c = reMap.get(re);
+    if (c) {
+      return c;
+    } else {
+      c = new ComplexClass(re, im);
+      reMap.set(re, c);
+      return c;
+    }
+  } else {
+    var _c = new ComplexClass(re, im);
+
+    var _reMap = new Map();
+    _reMap.set(re, _c);
+    imMap.set(im, _reMap);
+
+    return _c;
+  }
+}
+
+var ComplexWrapper = function ComplexWrapper(re, im) {
+  if (this) {
+    return new ComplexClass(re, im);
+  } else {
+    return complex(re, im);
+  }
+};
+
+// c instanceof Complex をtrueにするため
+ComplexWrapper.prototype = ComplexClass.prototype;
+
+exports.default = ComplexWrapper;
 
 },{}],2:[function(require,module,exports){
 'use strict';
@@ -370,7 +407,7 @@ var Complex64Array = function () {
       var re = this._float32Array[index * 2];
       var im = this._float32Array[index * 2 + 1];
 
-      var ret = new Complex(re, im);
+      var ret = Complex(re, im);
       return ret;
     }
   }, {

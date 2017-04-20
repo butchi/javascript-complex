@@ -1,4 +1,6 @@
-export default class Complex {
+const imMap = new Map();
+
+class ComplexClass {
   constructor(...args) {
     this._float32Array = new Float32Array(2);
     this._float32Array[0] = args[0];
@@ -44,3 +46,40 @@ export default class Complex {
     }
   }
 }
+
+function complex(re, im) {
+  let c;
+  let reMap = imMap.get(im);
+
+  if(reMap) {
+    c = reMap.get(re);
+    if(c) {
+      return c;
+    } else {
+      c = new ComplexClass(re, im);
+      reMap.set(re, c);
+      return c;
+    }
+  } else {
+    let c = new ComplexClass(re, im);
+
+    let reMap = new Map();
+    reMap.set(re, c);
+    imMap.set(im, reMap)
+
+    return c;
+  }
+}
+
+const ComplexWrapper = function(re, im) {
+  if(this) {
+    return new ComplexClass(re, im);
+  } else {
+    return complex(re, im);
+  }
+}
+
+// c instanceof Complex をtrueにするため
+ComplexWrapper.prototype = ComplexClass.prototype;
+
+export default ComplexWrapper;

@@ -16,3 +16,14 @@ console.log(complex64Array.re);
 console.log(complex64Array.im);
 
 console.log(complex64Array.getItem(2).toString());
+
+const c1 = Complex(1,2);
+const c2 = Complex(3,4);
+const c3 = Complex(1,2);
+const c4 = new Complex(1,2);
+const c5 = new Complex(1,2);
+
+console.log(c1 === c2);
+console.log(c1 === c3);
+console.log(c1 === c4);
+console.log(c4 === c5);

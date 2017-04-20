@@ -271,7 +271,7 @@ class Complex64Array {
     const re = this._float32Array[index * 2];
     const im = this._float32Array[index * 2 + 1];
 
-    let ret = new Complex(re, im);
+    let ret = Complex(re, im);
     return ret;
   }
 }
