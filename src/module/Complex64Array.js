@@ -249,7 +249,12 @@ class Complex64Array {
    *  配列と要素を表す文字列を返します。Array.prototype.toString()も確かめて下さい。
    */
   toString() {
-    return this._float32Array.toString();
+    let arr = [];
+    for(let i = 0; i < this.length / 2; i++) {
+      arr.push(this.getItem(i));
+    }
+
+    return arr.join(',');
   }
 
 
@@ -261,6 +266,14 @@ class Complex64Array {
    * 配列内で各インデックスに対する値を含む新しいArray Iteratorオブジェクトを返します。
    */
   // @@iterator
+
+  getItem(index) {
+    const re = this._float32Array[index * 2];
+    const im = this._float32Array[index * 2 + 1];
+
+    let ret = new Complex(re, im);
+    return ret;
+  }
 }
 
 /*

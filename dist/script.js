@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -19,22 +19,46 @@ var Complex = function () {
   }
 
   _createClass(Complex, [{
-    key: "abs",
+    key: 'abs',
     value: function abs() {
       return this.re * this.re + this.im * this.im;
     }
   }, {
-    key: "arg",
+    key: 'arg',
     value: function arg() {
       return Math.atan2(this.im, this.re);
     }
   }, {
-    key: "re",
+    key: 'toString',
+    value: function toString() {
+      var re = this.re;
+      var im = this.im;
+
+      if (re === 0) {
+        if (im === 0) {
+          return '0';
+        } else if (im === 1) {
+          return 'i';
+        } else if (im === -1) {
+          return '-i';
+        } else {
+          return im + 'i';
+        }
+      } else if (im === 0) {
+        return '' + re;
+      } else if (im < 0) {
+        return re + '-' + Math.abs(im) + 'i';
+      } else {
+        return re + '+' + im + 'i';
+      }
+    }
+  }, {
+    key: 're',
     get: function get() {
       return this._float32Array[0];
     }
   }, {
-    key: "im",
+    key: 'im',
     get: function get() {
       return this._float32Array[1];
     }
@@ -322,7 +346,12 @@ var Complex64Array = function () {
   }, {
     key: 'toString',
     value: function toString() {
-      return this._float32Array.toString();
+      var arr = [];
+      for (var i = 0; i < this.length / 2; i++) {
+        arr.push(this.getItem(i));
+      }
+
+      return arr.join(',');
     }
   }, {
     key: 'valueOf',
@@ -335,6 +364,15 @@ var Complex64Array = function () {
      */
     // @@iterator
 
+  }, {
+    key: 'getItem',
+    value: function getItem(index) {
+      var re = this._float32Array[index * 2];
+      var im = this._float32Array[index * 2 + 1];
+
+      var ret = new Complex(re, im);
+      return ret;
+    }
   }, {
     key: 'buffer',
     get: function get() {

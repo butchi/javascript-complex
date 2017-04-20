@@ -14,3 +14,5 @@ console.log(complex64Array.toString());
 
 console.log(complex64Array.re);
 console.log(complex64Array.im);
+
+console.log(complex64Array.getItem(2).toString());

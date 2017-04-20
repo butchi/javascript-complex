@@ -20,4 +20,27 @@ export default class Complex {
   get im() {
     return this._float32Array[1];
   }
+
+  toString() {
+    const re = this.re;
+    const im = this.im;
+
+    if(re === 0) {
+      if(im === 0) {
+        return '0';
+      } else if(im === 1) {
+        return 'i';
+      } else if(im === -1) {
+        return '-i';
+      } else {
+        return `${im}i`;
+      }
+    } else if(im === 0) {
+      return `${re}`;
+    } else if(im < 0) {
+      return `${re}-${Math.abs(im)}i`;
+    } else {
+      return `${re}+${im}i`;
+    }
+  }
 }
