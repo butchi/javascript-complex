@@ -4,7 +4,7 @@ const map = new Map();
 class ComplexClass {
   constructor(...args) {
     if(args[1] == null) {
-      let float64Array = new Float64Array(1);
+      const float64Array = new Float64Array(1);
       float64Array[0] = args[0];
       this._float32Array = new Float32Array(float64Array.buffer);
     } else {
@@ -54,7 +54,7 @@ class ComplexClass {
   }
 
   valueOf() {
-    let float64Array = new Float64Array(this._float32Array.buffer);
+    const float64Array = new Float64Array(this._float32Array.buffer);
     return float64Array[0];
   }
 }
