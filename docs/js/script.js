@@ -17,6 +17,8 @@ console.log(complex64Array.im);
 
 console.log(complex64Array.getItem(2).toString());
 
+console.log(new Complex64Array([5,3,8]).toString());
+
 const c1 = Complex(1,2);
 const c2 = Complex(3,4);
 const c3 = Complex(1,2);

@@ -8,7 +8,7 @@
 class Complex64Array {
   constructor(...args) {
     this._length = 0;
-    this.source = [];
+    let source = [];
 
     if(args.length === 0) {
     } else if(args.length === 1) {
@@ -19,7 +19,7 @@ class Complex64Array {
       } else if(arg instanceof Array) {
         this._length = arg.length;
 
-        this.source = arg;
+        source = arg;
       } else {
         this._length = 0;
       }
@@ -30,7 +30,7 @@ class Complex64Array {
     this._float32Array =  new Float32Array(this._buffer);
     this._float32Array.fill(0);
 
-    this.source.forEach((item, i) => {
+    source.forEach((item, i) => {
       this._float32Array[i * 2] = item;
     });
   }
@@ -250,7 +250,7 @@ class Complex64Array {
    */
   toString() {
     let arr = [];
-    for(let i = 0; i < this.length / 2; i++) {
+    for(let i = 0; i < this.length; i++) {
       arr.push(this.getItem(i));
     }
 

@@ -147,7 +147,7 @@ var Complex64Array = function () {
     _classCallCheck(this, Complex64Array);
 
     this._length = 0;
-    this.source = [];
+    var source = [];
 
     if (arguments.length === 0) {} else if (arguments.length === 1) {
       var arg = arguments.length <= 0 ? undefined : arguments[0];
@@ -157,7 +157,7 @@ var Complex64Array = function () {
       } else if (arg instanceof Array) {
         this._length = arg.length;
 
-        this.source = arg;
+        source = arg;
       } else {
         this._length = 0;
       }
@@ -167,7 +167,7 @@ var Complex64Array = function () {
     this._float32Array = new Float32Array(this._buffer);
     this._float32Array.fill(0);
 
-    this.source.forEach(function (item, i) {
+    source.forEach(function (item, i) {
       _this._float32Array[i * 2] = item;
     });
   }
@@ -400,7 +400,7 @@ var Complex64Array = function () {
     key: 'toString',
     value: function toString() {
       var arr = [];
-      for (var i = 0; i < this.length / 2; i++) {
+      for (var i = 0; i < this.length; i++) {
         arr.push(this.getItem(i));
       }
 
