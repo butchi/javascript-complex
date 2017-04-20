@@ -27,11 +27,20 @@ class Complex64Array {
     }
 
     this._buffer = new ArrayBuffer(this._length * Complex64Array.BYTES_PER_ELEMENT);
-    this._float32Array =  new Float32Array(this._buffer);
+    this._float32Array = new Float32Array(this._buffer);
     this._float32Array.fill(0);
 
+    this._float64Array = new Float64Array(this._buffer);
+
     source.forEach((item, i) => {
-      this._float32Array[i * 2] = item;
+      if(item == null) {
+        this._float32Array[i * 2] = item;
+        this._float32Array[i * 2 + 1] = item;
+      } else if(item instanceof Complex) {
+        this._float64Array[i] = item;
+      } else {
+        this._float32Array[i * 2] = item;
+      }
     });
   }
 
@@ -201,8 +210,7 @@ class Complex64Array {
 
     arr.forEach((item, i) => {
       if(item instanceof Complex) {
-        this._float32Array[(i + offset) * 2] = item.re;
-        this._float32Array[(i + offset) * 2 + 1] = item.im;
+        this._float64Array[i + offset] = item;
       } else {
         this._float32Array[(i + offset) * 2] = item;
       }

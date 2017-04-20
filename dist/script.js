@@ -167,8 +167,17 @@ var Complex64Array = function () {
     this._float32Array = new Float32Array(this._buffer);
     this._float32Array.fill(0);
 
+    this._float64Array = new Float64Array(this._buffer);
+
     source.forEach(function (item, i) {
-      _this._float32Array[i * 2] = item;
+      if (item == null) {
+        _this._float32Array[i * 2] = item;
+        _this._float32Array[i * 2 + 1] = item;
+      } else if (item instanceof Complex) {
+        _this._float64Array[i] = item;
+      } else {
+        _this._float32Array[i * 2] = item;
+      }
     });
   }
 
@@ -336,8 +345,7 @@ var Complex64Array = function () {
 
       arr.forEach(function (item, i) {
         if (item instanceof Complex) {
-          _this2._float32Array[(i + offset) * 2] = item.re;
-          _this2._float32Array[(i + offset) * 2 + 1] = item.im;
+          _this2._float64Array[i + offset] = item;
         } else {
           _this2._float32Array[(i + offset) * 2] = item;
         }
