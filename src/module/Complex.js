@@ -2,9 +2,15 @@ const imMap = new Map();
 
 class ComplexClass {
   constructor(...args) {
-    this._float32Array = new Float32Array(2);
-    this._float32Array[0] = args[0];
-    this._float32Array[1] = args[1];
+    if(args[1] == null) {
+      let float64Array = new Float64Array(1);
+      float64Array[0] = args[0];
+      this._float32Array = new Float32Array(float64Array.buffer);
+    } else {
+      this._float32Array = new Float32Array(2);
+      this._float32Array[0] = args[0];
+      this._float32Array[1] = args[1];
+    }
   }
 
   abs() {
@@ -70,7 +76,7 @@ function complex(re, im) {
 
     let reMap = new Map();
     reMap.set(re, c);
-    imMap.set(im, reMap)
+    imMap.set(im, reMap);
 
     return c;
   }

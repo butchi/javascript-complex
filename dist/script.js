@@ -15,9 +15,15 @@ var ComplexClass = function () {
   function ComplexClass() {
     _classCallCheck(this, ComplexClass);
 
-    this._float32Array = new Float32Array(2);
-    this._float32Array[0] = arguments.length <= 0 ? undefined : arguments[0];
-    this._float32Array[1] = arguments.length <= 1 ? undefined : arguments[1];
+    if ((arguments.length <= 1 ? undefined : arguments[1]) == null) {
+      var float64Array = new Float64Array(1);
+      float64Array[0] = arguments.length <= 0 ? undefined : arguments[0];
+      this._float32Array = new Float32Array(float64Array.buffer);
+    } else {
+      this._float32Array = new Float32Array(2);
+      this._float32Array[0] = arguments.length <= 0 ? undefined : arguments[0];
+      this._float32Array[1] = arguments.length <= 1 ? undefined : arguments[1];
+    }
   }
 
   _createClass(ComplexClass, [{

@@ -27,3 +27,5 @@ console.log(c1 === c2);
 console.log(c1 === c3);
 console.log(c1 === c4);
 console.log(c4 === c5);
+
+console.log(Complex(Complex(1,2).valueOf()).toString());
