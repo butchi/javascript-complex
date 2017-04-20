@@ -366,6 +366,30 @@ var Complex64Array = function () {
     get: function get() {
       return this._length;
     }
+  }, {
+    key: 're',
+    get: function get() {
+      var len = Math.ceil(this.length / 2);
+      var arr = new Float32Array(len);
+
+      for (var i = 0; i < len; i++) {
+        arr[i] = this._float32Array[i * 2];
+      }
+
+      return arr;
+    }
+  }, {
+    key: 'im',
+    get: function get() {
+      var len = Math.ceil(this.length / 2);
+      var arr = new Float32Array(len);
+
+      for (var i = 0; i < len; i++) {
+        arr[i] = this._float32Array[i * 2 + 1];
+      }
+
+      return arr;
+    }
   }]);
 
   return Complex64Array;

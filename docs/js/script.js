@@ -11,3 +11,6 @@ complex64Array.set([c__3__4, c__0__1, 5], 2);
 
 console.log(uint32Array.toString());
 console.log(complex64Array.toString());
+
+console.log(complex64Array.re);
+console.log(complex64Array.im);

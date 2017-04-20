@@ -61,6 +61,28 @@ class Complex64Array {
     return this._length;
   }
 
+  get re() {
+    const len = Math.ceil(this.length / 2);
+    let arr = new Float32Array(len);
+
+    for(let i = 0; i < len; i++) {
+      arr[i] = this._float32Array[i * 2];
+    }
+
+    return arr;
+  }
+
+  get im() {
+    const len = Math.ceil(this.length / 2);
+    let arr = new Float32Array(len);
+
+    for(let i = 0; i < len; i++) {
+      arr[i] = this._float32Array[i * 2 + 1];
+    }
+
+    return arr;
+  }
+
 
   /*
    *  配列内で一連の配列要素をコピーします。Array.prototype.copyWithin()も確かめて下さい。
